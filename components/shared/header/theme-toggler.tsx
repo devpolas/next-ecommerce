@@ -32,7 +32,7 @@ export default function ThemeToggler() {
         <Button
           aria-label='Toggle theme'
           variant='ghost'
-          className='focus-visible:ring-0 focus-visible:ring-offset-0'
+          className='focus-visible:ring-0 focus-visible:ring-offset-0 hover:cursor-pointer focus-visible:cursor-pointer active:cursor-pointer'
         >
           {currentTheme === "dark" ? <MoonIcon /> : <SunIcon />}
         </Button>
@@ -43,18 +43,21 @@ export default function ThemeToggler() {
         <DropdownMenuCheckboxItem
           onSelect={() => setTheme("system")}
           checked={theme === "system"}
+          className='hover:cursor-pointer'
         >
           System
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           onSelect={() => setTheme("dark")}
           checked={theme === "dark"}
+          className='hover:cursor-pointer'
         >
           Dark
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           onSelect={() => setTheme("light")}
           checked={theme === "light"}
+          className='hover:cursor-pointer'
         >
           Light
         </DropdownMenuCheckboxItem>
