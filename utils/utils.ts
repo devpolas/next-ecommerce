@@ -1,11 +1,9 @@
 // convert prisma object into regular js object
-
 export function convertToPlainObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
 // format number with decimal places
-
 export function formateNumberWithDecimal(num: number): string {
   const [int, decimal] = num.toString().split(".");
 
@@ -13,7 +11,6 @@ export function formateNumberWithDecimal(num: number): string {
 }
 
 // check price with two decimal places
-
 export function isValidAmount(str: string) {
   const parts = str.split(".");
   if (
