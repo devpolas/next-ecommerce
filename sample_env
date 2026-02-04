@@ -1,4 +1,7 @@
 NEXT_PUBLIC_NEXT_URL = "http://localhost:3000"
 NEXT_URL = "http://localhost:3000"
-NEXT_PUBLIC_APP_NAME = "Next E-Commerce Store"
+NEXT_PUBLIC_APP_NAME = "Next Store"
 NEXT_PUBLIC_APP_DESCRIPTION = "A modern e-commerce platform build with Next.js"
+NEXT_PUBLIC_LATEST_PRODUCT_LIMIT = 4
+
+DATABASE_URL="postgresql://[neon_user]:[neon_user_password]@[pgsql-cluster]/neondb?sslmode=require"
