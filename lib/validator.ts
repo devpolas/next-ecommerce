@@ -1,0 +1,24 @@
+import { formateNumberWithDecimal, isValidAmount } from "@/utils/utils";
+import { z } from "zod";
+
+// Schema for inserting products
+export const insertProductSchema = z.object({
+  name: z.string().min(3, "name must be at least 3 characters"),
+  slug: z.string().min(3, "slug must be at least 3 characters"),
+  category: z.string().min(3, "category must be at least 3 characters"),
+  brand: z.string().min(3, "brand must be at least 3 characters"),
+  description: z.string().min(10, "description must be at least 10 characters"),
+  stock: z.coerce
+    .number()
+    .int()
+    .nonnegative("Stock must be a non-negative integer"),
+  images: z.array(z.string()).min(1, "Product must be at least one image"),
+  isFeatured: z.boolean(),
+  banner: z.string().nullable(),
+  price: z
+    .string()
+    .refine(
+      (value) => isValidAmount(formateNumberWithDecimal(Number(value))),
+      "Price muse have exactly two decimal places.",
+    ),
+});

@@ -1,24 +1,40 @@
+import { neonConfig } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@/lib/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import ws from "ws";
 
-const globalForPrisma = global as unknown as {
-  prisma: PrismaClient;
+/**
+ * Neon requires WebSockets in Node.js
+ */
+neonConfig.webSocketConstructor = ws;
+
+/**
+ * Global singleton (prevents connection leaks in dev)
+ */
+const globalForPrisma = globalThis as unknown as {
+  prisma?: PrismaClient;
 };
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is missing");
 }
 
-const adapter = new PrismaPg({
+/**
+ * Prisma Neon Adapter
+ */
+const adapter = new PrismaNeon({
   connectionString: process.env.DATABASE_URL,
 });
 
-const prisma =
-  globalForPrisma.prisma ||
+/**
+ * Prisma Client
+ */
+export const prisma =
+  globalForPrisma.prisma ??
   new PrismaClient({
-    accelerateUrl: process.env.DATABASE_URL,
+    adapter,
   });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
-
-export default prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
