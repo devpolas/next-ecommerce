@@ -22,3 +22,8 @@ export const insertProductSchema = z.object({
       "Price muse have exactly two decimal places.",
     ),
 });
+
+export const signinFormSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
