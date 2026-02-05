@@ -185,7 +185,7 @@ export type UserGroupByOutputType = {
   email: string
   password: string | null
   role: string
-  address: runtime.JsonValue
+  address: runtime.JsonValue | null
   paymentMethod: string | null
   emailVerified: Date | null
   image: string | null
@@ -220,7 +220,7 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
-  address?: Prisma.JsonFilter<"User">
+  address?: Prisma.JsonNullableFilter<"User">
   paymentMethod?: Prisma.StringNullableFilter<"User"> | string | null
   emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableFilter<"User"> | string | null
@@ -236,7 +236,7 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -255,7 +255,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
-  address?: Prisma.JsonFilter<"User">
+  address?: Prisma.JsonNullableFilter<"User">
   paymentMethod?: Prisma.StringNullableFilter<"User"> | string | null
   emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableFilter<"User"> | string | null
@@ -271,7 +271,7 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -291,7 +291,7 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
-  address?: Prisma.JsonWithAggregatesFilter<"User">
+  address?: Prisma.JsonNullableWithAggregatesFilter<"User">
   paymentMethod?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   emailVerified?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -305,7 +305,7 @@ export type UserCreateInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -321,7 +321,7 @@ export type UserUncheckedCreateInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -337,7 +337,7 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -353,7 +353,7 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -369,7 +369,7 @@ export type UserCreateManyInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -383,7 +383,7 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -397,7 +397,7 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -488,7 +488,7 @@ export type UserCreateWithoutAccountsInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -503,7 +503,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -534,7 +534,7 @@ export type UserUpdateWithoutAccountsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -549,7 +549,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -564,7 +564,7 @@ export type UserCreateWithoutSessionsInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -579,7 +579,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   email: string
   password?: string | null
   role?: string
-  address: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: string | null
   emailVerified?: Date | string | null
   image?: string | null
@@ -610,7 +610,7 @@ export type UserUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -625,7 +625,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  address?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -754,7 +754,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     password: string | null
     role: string
-    address: runtime.JsonValue
+    address: runtime.JsonValue | null
     paymentMethod: string | null
     emailVerified: Date | null
     image: string | null

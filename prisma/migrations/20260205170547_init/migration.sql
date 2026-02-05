@@ -1,11 +1,31 @@
 -- CreateTable
+CREATE TABLE "Product" (
+    "id" UUID NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "images" TEXT[],
+    "brand" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "price" DECIMAL(12,2) NOT NULL DEFAULT 0,
+    "rating" DECIMAL(3,2) NOT NULL DEFAULT 0,
+    "numReviews" INTEGER NOT NULL DEFAULT 0,
+    "isFeatured" BOOLEAN NOT NULL DEFAULT false,
+    "banner" TEXT,
+    "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL DEFAULT 'NO_Name',
     "email" TEXT NOT NULL,
     "password" TEXT,
     "role" TEXT NOT NULL DEFAULT 'user',
-    "address" JSON NOT NULL,
+    "address" JSON,
     "paymentMethod" TEXT,
     "emailVerified" TIMESTAMP(6),
     "image" TEXT,
@@ -53,6 +73,9 @@ CREATE TABLE "VerificationToken" (
 
     CONSTRAINT "VerificationToken_pkey" PRIMARY KEY ("identifier","token")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "product_slug_idx" ON "Product"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_idx" ON "User"("email");

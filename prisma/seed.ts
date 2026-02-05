@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from "@/lib/generated/prisma/client";
+import { PrismaClient, Prisma } from "@/prisma/lib/generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import "dotenv/config";
 
@@ -115,9 +115,33 @@ const productData: Prisma.ProductCreateInput[] = [
   },
 ];
 
+const userData: Prisma.UserCreateInput[] = [
+  {
+    name: "admin",
+    email: "admin@nextstore.com",
+    password: "123456",
+    role: "admin",
+  },
+  {
+    name: "user",
+    email: "user@nextstore.com",
+    password: "456123",
+    role: "user",
+  },
+];
+
 export async function main() {
+  await prisma.product.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.verificationToken.deleteMany();
+  await prisma.user.deleteMany();
+
   for (const product of productData) {
     await prisma.product.create({ data: product });
+  }
+  for (const user of userData) {
+    await prisma.user.create({ data: user });
   }
 }
 
