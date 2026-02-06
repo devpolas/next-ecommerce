@@ -1,14 +1,13 @@
-import { PrismaClient, Prisma } from "@/lib/generated/prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import "dotenv/config";
+import { prisma } from "@/lib/prisma";
+import { neonConfig } from "@neondatabase/serverless"; // Add this
+import ws from "ws"; // Add this
+import bcrypt from "bcrypt";
+import { Prisma } from "@/lib/generated/prisma/client";
 
-const adapter = new PrismaNeon({
-  connectionString: process.env.DATABASE_URL,
-});
-
-const prisma = new PrismaClient({
-  adapter,
-});
+// Ensure WebSockets work in Node.js for Neon
+if (!globalThis.WebSocket) {
+  neonConfig.webSocketConstructor = ws;
+}
 
 const productData: Prisma.ProductCreateInput[] = [
   {
@@ -131,18 +130,39 @@ const userData: Prisma.UserCreateInput[] = [
 ];
 
 export async function main() {
+  console.log("Deleting old data...");
   await prisma.product.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
-  await prisma.verificationToken.deleteMany();
+  await prisma.verification.deleteMany();
   await prisma.user.deleteMany();
+
+  console.log("Seeding users...");
+
+  for (const user of userData) {
+    const hashedPassword = await bcrypt.hash(user.password!, 12);
+    if (!user.password) {
+      throw new Error("Password missing for user: " + user.email);
+    }
+
+    await prisma.user.create({
+      data: { ...user, password: hashedPassword },
+    });
+  }
+
+  console.log("Seeding products...");
 
   for (const product of productData) {
     await prisma.product.create({ data: product });
   }
-  for (const user of userData) {
-    await prisma.user.create({ data: user });
-  }
 }
 
-main();
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error("Error during seeding:", e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

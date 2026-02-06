@@ -1,34 +1,26 @@
+// lib/prisma.ts
 import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 import ws from "ws";
 
-/**
- * Neon requires WebSockets in Node.js
- */
-neonConfig.webSocketConstructor = ws;
+// 1. Neon WebSocket Polyfill
+if (typeof window === "undefined" && !globalThis.WebSocket) {
+  neonConfig.webSocketConstructor = ws;
+}
 
-/**
- * Global singleton (prevents connection leaks in dev)
- */
+// 2. Global singleton for Dev (prevents connection exhaustion)
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is missing");
-}
+// 3. Initialize Adapter with the POOLED connection string
+if (!process.env.DATABASE_URL) throw new Error("Missing DATABASE_URL");
 
-/**
- * Prisma Neon Adapter
- */
 const adapter = new PrismaNeon({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL!,
 });
 
-/**
- * Prisma Client
- */
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
