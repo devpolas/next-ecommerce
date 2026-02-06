@@ -9,3 +9,5 @@ export const SERVER_URL =
 
 export const LATEST_PRODUCT_LIMIT =
   process.env.NEXT_PUBLIC_LATEST_PRODUCT_LIMIT || 4;
+
+export const IMGBB_API_KEY = process.env.IMGBB_API_KEY;

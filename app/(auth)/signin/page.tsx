@@ -9,6 +9,7 @@ import { APP_NAME } from "@/lib/constants";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import SigninForm from "./signin-form";
 
 export const metadata: Metadata = {
   title: "signin",
@@ -28,9 +29,13 @@ export default function SigninPage() {
             />
           </Link>
           <CardTitle className='text-center'>Signin</CardTitle>
-          <CardDescription>Signin to your account</CardDescription>
+          <CardDescription className='text-center'>
+            Signin to your account
+          </CardDescription>
         </CardHeader>
-        <CardContent className='space-y-4'>signin form</CardContent>
+        <CardContent className='space-y-4'>
+          <SigninForm />
+        </CardContent>
       </Card>
     </div>
   );

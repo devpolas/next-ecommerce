@@ -24,13 +24,25 @@ export async function signupInWithEmailPassword(signupData: signupType) {
     // validation with zod
     const user = signupFormSchema.parse(signupData);
     // handel signup better auth
-    return await auth.api.signUpEmail({
+    await auth.api.signUpEmail({
       body: user,
+      asResponse: true,
       headers: await headers(),
     });
+
+    // signin after signup
+    await auth.api.signInEmail({
+      body: { email: user.email, password: user.password },
+      asResponse: true,
+      headers: await headers(),
+    });
+
+    return { success: true, message: "successfully signup" };
   } catch (error) {
-    if (isRedirectError(error)) throw error;
-    throw error;
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    return { success: false, message: "invalid credentials" };
   }
 }
 
@@ -39,13 +51,19 @@ export async function signInWithEmailPassword(signinData: signinType) {
     // validation with zod
     const user = signinFormSchema.parse(signinData);
     // handel signin better auth
-    return await auth.api.signInEmail({
+    await auth.api.signInEmail({
       body: user,
+      asResponse: true,
       headers: await headers(),
     });
+
+    return { success: true, message: "successfully signin" };
   } catch (error) {
-    if (isRedirectError(error)) throw error;
-    throw error;
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
+    return { success: false, message: "invalid credentials" };
   }
 }
 

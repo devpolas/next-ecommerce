@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { neonConfig } from "@neondatabase/serverless"; // Add this
 import ws from "ws"; // Add this
-import bcrypt from "bcrypt";
 import { Prisma } from "@/lib/generated/prisma/client";
 
 // Ensure WebSockets work in Node.js for Neon
@@ -114,41 +113,9 @@ const productData: Prisma.ProductCreateInput[] = [
   },
 ];
 
-const userData: Prisma.UserCreateInput[] = [
-  {
-    name: "admin",
-    email: "admin@nextstore.com",
-    password: "123456",
-    role: "admin",
-  },
-  {
-    name: "user",
-    email: "user@nextstore.com",
-    password: "456123",
-    role: "user",
-  },
-];
-
 export async function main() {
   console.log("Deleting old data...");
   await prisma.product.deleteMany();
-  await prisma.account.deleteMany();
-  await prisma.session.deleteMany();
-  await prisma.verification.deleteMany();
-  await prisma.user.deleteMany();
-
-  console.log("Seeding users...");
-
-  for (const user of userData) {
-    const hashedPassword = await bcrypt.hash(user.password!, 12);
-    if (!user.password) {
-      throw new Error("Password missing for user: " + user.email);
-    }
-
-    await prisma.user.create({
-      data: { ...user, password: hashedPassword },
-    });
-  }
 
   console.log("Seeding products...");
 
