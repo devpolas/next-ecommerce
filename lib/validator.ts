@@ -24,6 +24,16 @@ export const insertProductSchema = z.object({
 });
 
 export const signinFormSchema = z.object({
-  email: z.email("Invalid email address"),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  rememberMe: z.boolean().optional(),
+  callbackURL: z.string().optional(),
+});
+
+export const signupFormSchema = z.object({
+  name: z.string().min(3, "Your name must be at least 3 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  image: z.string("Provide you profile image"),
+  callbackURL: z.string().optional(),
 });

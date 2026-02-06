@@ -1,7 +1,8 @@
 "use server";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signinFormSchema } from "../validator";
+import { signinFormSchema, signupFormSchema } from "../validator";
 import { auth } from "../auth";
+import { headers } from "next/headers";
 
 type signinType = {
   email: string;
@@ -10,32 +11,45 @@ type signinType = {
   callbackURL: string;
 };
 
-export async function signInWithEmailPassword({
-  email,
-  password,
-  rememberMe,
-  callbackURL,
-}: signinType) {
+type signupType = {
+  name: string;
+  email: string;
+  password: string;
+  image: string;
+  callbackURL: string;
+};
+
+export async function signupInWithEmailPassword(signupData: signupType) {
   try {
-    if (!email && !password)
-      throw new Error("Please Provide email and password");
-
-    const user = signinFormSchema.parse({ email, password });
-
-    await auth.api.signInEmail({
-      body: {
-        email: user.email,
-        password: user.password,
-        rememberMe,
-        callbackURL,
-      },
+    // validation with zod
+    const user = signupFormSchema.parse(signupData);
+    // handel signup better auth
+    return await auth.api.signUpEmail({
+      body: user,
+      headers: await headers(),
     });
-
-    return { success: true, message: "successfully signin" };
   } catch (error) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
-    return { success: false, message: "fail to login" };
+    if (isRedirectError(error)) throw error;
+    throw error;
   }
+}
+
+export async function signInWithEmailPassword(signinData: signinType) {
+  try {
+    // validation with zod
+    const user = signinFormSchema.parse(signinData);
+    // handel signin better auth
+    return await auth.api.signInEmail({
+      body: user,
+      headers: await headers(),
+    });
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
+    throw error;
+  }
+}
+
+export async function logout() {
+  // logout
+  return await auth.api.signOut({ headers: await headers() });
 }
