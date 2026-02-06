@@ -1,6 +1,7 @@
+
 generator client {
   provider = "prisma-client"
-  output   = "./lib/generated/prisma"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
@@ -8,69 +9,85 @@ datasource db {
 }
 
 model Product {
-  id String @id @default(uuid()) @db.Uuid
-  name String
-  slug String @unique(map: "product_slug_idx")
-  category String
-  images String[]
-  brand String
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String   @unique(map: "product_slug_idx")
+  category    String
+  images      String[]
+  brand       String
   description String
-  stock Int
-  price Decimal @default(0) @db.Decimal(12,2)
-  rating Decimal @default(0) @db.Decimal(3,2)
-  numReviews Int @default(0)
-  isFeatured Boolean @default(false)
-  banner String?
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  stock       Int
+  price       Decimal  @default(0) @db.Decimal(12, 2)
+  rating      Decimal  @default(0) @db.Decimal(3, 2)
+  numReviews  Int      @default(0)
+  isFeatured  Boolean  @default(false)
+  banner      String?
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
 }
 
 model User {
-  id  String @id @default(uuid()) @db.Uuid
-  name String @default("NO_Name")
-  email String @unique(map: "user_email_idx")
-  password String?
-  role String @default("user")
-  address Json? @db.Json
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String
+  email         String
+  password      String?
+  role          String    @default("user")
+  emailVerified Boolean   @default(false)
+  image         String?
+  address       Json?     @db.Json
   paymentMethod String?
-  emailVerified DateTime? @db.Timestamp(6)
-  image String?
-  accounts Account[]
-  sessions Session[]
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @db.Timestamp(6)
-}
+  createdAt     DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime  @updatedAt @db.Timestamp(6)
+  sessions      Session[]
+  accounts      Account[]
 
-model Account {
-  userId String @db.Uuid
-  type  String
-  provider  String
-  providerAccountId String
-  refresh_token String?
-  access_token  String?
-  expires_at  Int?
-  token_type  String?
-  scope String?
-  id_token String?
-  session_state String?
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @db.Timestamp(6)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@id([provider, providerAccountId])
+  @@unique([email])
+  @@map("user")
 }
 
 model Session {
-  sessionToken String  @id
-  userId String @db.Uuid
-  expires DateTime @db.Timestamp(6)
-  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid()) @db.Uuid
+  expiresAt DateTime @db.Timestamp(6)
+  token     String
   createdAt DateTime @default(now()) @db.Timestamp(6)
   updatedAt DateTime @updatedAt @db.Timestamp(6)
+  ipAddress String?
+  userAgent String?
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
 }
 
-model VerificationToken {
+model Account {
+  id                    String    @id @default(uuid()) @db.Uuid
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime? @db.Timestamp(6)
+  refreshTokenExpiresAt DateTime? @db.Timestamp(6)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt             DateTime  @updatedAt @db.Timestamp(6)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(uuid()) @db.Uuid
   identifier String
-  token String
-  expires DateTime @db.Timestamp(6)
- 
-  @@id([identifier, token])
+  value      String
+  expiresAt  DateTime @db.Timestamp(6)
+  createdAt  DateTime @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime @updatedAt @db.Timestamp(6)
+
+  @@index([identifier])
+  @@map("verification")
 }
