@@ -1,11 +1,11 @@
 import { hash, type Options, verify } from "@node-rs/argon2";
 
 const opts: Options = {
-  memoryCost: 65536, // 64 MiB
-  timeCost: 3, // 3 iterations
-  parallelism: 4, // 4 lanes
-  outputLen: 32, // 32 bytes
-  algorithm: 2, // Argon2id
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 4,
+  outputLen: 32,
+  algorithm: 2,
 };
 
 export async function hashPassword(password: string) {
