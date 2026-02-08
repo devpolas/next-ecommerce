@@ -34,7 +34,7 @@ export async function signupInWithEmailPassword(signupData: signupType) {
     });
 
     // signin after signup
-    const result = await auth.api.signInEmail({
+    await auth.api.signInEmail({
       body: {
         email: user.email,
         password: user.password,
@@ -42,8 +42,6 @@ export async function signupInWithEmailPassword(signupData: signupType) {
       asResponse: true,
       headers: await headers(),
     });
-
-    console.log(result);
 
     return { success: true, message: "successfully signup" };
   } catch (error) {
@@ -59,7 +57,7 @@ export async function signInWithEmailPassword(signinData: signinType) {
     // validation with zod
     const user = signinFormSchema.parse(signinData);
     // handel signin better auth
-    const result = await auth.api.signInEmail({
+    await auth.api.signInEmail({
       body: {
         email: user.email,
         password: user.password,
@@ -67,8 +65,6 @@ export async function signInWithEmailPassword(signinData: signinType) {
       asResponse: true,
       headers: await headers(),
     });
-
-    console.log(result);
 
     return { success: true, message: "successfully signin" };
   } catch (error) {
