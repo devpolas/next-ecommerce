@@ -8,14 +8,14 @@ type signinType = {
   email: string;
   password: string;
   rememberMe: boolean;
-  callbackURL: string;
+  callbackURL?: string;
 };
 
 type signupType = {
   name: string;
   email: string;
   password: string;
-  callbackURL: string;
+  callbackURL?: string;
 };
 
 export async function signupInWithEmailPassword(signupData: signupType) {
@@ -28,7 +28,6 @@ export async function signupInWithEmailPassword(signupData: signupType) {
         name: user.name,
         email: user.email,
         password: user.password,
-        callbackURL: user.callbackURL,
       },
       asResponse: true,
       headers: await headers(),
@@ -39,7 +38,6 @@ export async function signupInWithEmailPassword(signupData: signupType) {
       body: {
         email: user.email,
         password: user.password,
-        callbackURL: user.callbackURL,
       },
       asResponse: true,
       headers: await headers(),
@@ -63,7 +61,6 @@ export async function signInWithEmailPassword(signinData: signinType) {
       body: {
         email: user.email,
         password: user.password,
-        callbackURL: user.callbackURL,
       },
       asResponse: true,
       headers: await headers(),
@@ -74,7 +71,6 @@ export async function signInWithEmailPassword(signinData: signinType) {
     if (isRedirectError(error)) {
       throw error;
     }
-
     return { success: false, message: "invalid credentials" };
   }
 }
