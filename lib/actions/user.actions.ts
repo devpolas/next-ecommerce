@@ -15,7 +15,6 @@ type signupType = {
   name: string;
   email: string;
   password: string;
-  image: string;
   callbackURL: string;
 };
 
@@ -25,14 +24,23 @@ export async function signupInWithEmailPassword(signupData: signupType) {
     const user = signupFormSchema.parse(signupData);
     // handel signup better auth
     await auth.api.signUpEmail({
-      body: user,
+      body: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        callbackURL: user.callbackURL,
+      },
       asResponse: true,
       headers: await headers(),
     });
 
     // signin after signup
     await auth.api.signInEmail({
-      body: { email: user.email, password: user.password },
+      body: {
+        email: user.email,
+        password: user.password,
+        callbackURL: user.callbackURL,
+      },
       asResponse: true,
       headers: await headers(),
     });
@@ -52,7 +60,11 @@ export async function signInWithEmailPassword(signinData: signinType) {
     const user = signinFormSchema.parse(signinData);
     // handel signin better auth
     await auth.api.signInEmail({
-      body: user,
+      body: {
+        email: user.email,
+        password: user.password,
+        callbackURL: user.callbackURL,
+      },
       asResponse: true,
       headers: await headers(),
     });

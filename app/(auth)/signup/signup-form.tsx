@@ -9,7 +9,6 @@ import Link from "next/link";
 import { signup } from "./signup-action";
 import { LoadingSpinner } from "@/components/spinner/spinner";
 import { useSearchParams } from "next/navigation";
-import ImagePicker from "@/components/shared/img/image-picker";
 
 export default function SignupForm() {
   const searchParams = useSearchParams();
@@ -89,10 +88,6 @@ export default function SignupForm() {
               required
               placeholder='password confirm'
             />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='passwordConfirm'>Pick an Image</Label>
-            <ImagePicker name='image' />
           </div>
 
           <div>

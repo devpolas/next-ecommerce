@@ -1,7 +1,6 @@
 "use server";
 
 import { signupInWithEmailPassword } from "@/lib/actions/user.actions";
-import { uploadImage } from "@/lib/actions/imgbb.action";
 
 type SignupState = {
   success: boolean;
@@ -16,7 +15,6 @@ export async function signup(
   const email = formData.get("email");
   const password = formData.get("password");
   const callbackURL = formData.get("callbackURL");
-  const imageFile = formData.get("image");
 
   if (
     typeof name !== "string" ||
@@ -27,23 +25,10 @@ export async function signup(
     return { success: false, message: "Invalid form data" };
   }
 
-  if (!imageFile || typeof (imageFile as File).arrayBuffer !== "function") {
-    return { success: false, message: "Invalid image file" };
-  }
-
-  const uploadResult = await uploadImage(name, imageFile as Blob);
-
-  if (!uploadResult.success || !uploadResult.url) {
-    return { success: false, message: uploadResult.message };
-  }
-
-  const image = uploadResult.url;
-
   return await signupInWithEmailPassword({
     name,
     email,
     password,
-    image,
     callbackURL,
   });
 }
